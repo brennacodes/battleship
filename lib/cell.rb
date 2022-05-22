@@ -1,7 +1,8 @@
-require_relative 'ship'
+require 'messages'
 require 'cell_states'
 
 class Cell
+  include Messages
   include CellStates
 
   attr_reader :coordinate, :fired
@@ -11,7 +12,6 @@ class Cell
     @coordinate = coordinate
     @ship = nil
     @fired = false
-    @cell_state = ''
   end
 
   def ship
@@ -31,46 +31,25 @@ class Cell
   end
 
   def fire_upon
-    if @ship == nil
-      return
-    else
+    if direct_hit
       @ship.health -= 1
       @fired = true
-    end
-  end
-
-  def fire_away
-    @ship.health -= 177
-    @fired = true
-  end
-
-  def render(show = false)
-    if @fired == true && @ship == nil
-      "M"
-    elsif @fired == true && @ship != nil && @ship.health != 0
-      "H"
-    elsif show == true && @ship != nil
-      "S"
-    elsif @fired == true && @ship != nil && @ship.health == 0
-      "X"
+    elsif missed? == true
+      "Can't fire here."
     else
-      "."
+      @fired = true
+      "Big miss there, bud."
     end
+  end
+
+  def render(visibility = false)
+    visibility ? make_visible : invisible
+  end
+
+  def make_visible
+    return miss if missed? == true
+    return hit if direct_hit? == true
+    return sunk if ship_sunk? == true
+    return ship_here if ship_placed_here? == true
   end
 end
-
-
-  # def render(show = false)
-  #   return miss if missed?
-  #   return hit if direct_hit?
-  #   return ship_here if show == true && @ship != nil
-  #   return sunk if sinker?
-  #   if show == true && @ship != nil
-  #       "S"
-  #   end
-  #   return '.'
-  # end
-
-  # def sunk?
-  #   @ship.health == 0
-  # end

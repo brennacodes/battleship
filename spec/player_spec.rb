@@ -1,5 +1,4 @@
-# require 'spec_helper'
-require 'spec_helper2'
+require 'spec_helper'
 
 RSpec.describe do
   # let!(:board) {Board.new}

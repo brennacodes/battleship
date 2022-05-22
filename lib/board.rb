@@ -1,51 +1,23 @@
-require_relative 'helper'
-
 class Board
-  attr_reader :cells,
-              :coordinates,
-              :vert_coords,
-              :letters,
-              :nums
+  attr_reader :cells, :coordinates, :vert_coords, :letters, :nums
 
-  attr_accessor :height,
-                :width,
-                :size
-
-  def initialize (width = 4, height = "D")
-    @height = height
-    @width = width
-    @letters = letters
-    @nums = nums
+  def initialize
     @coordinates = make_horizontal_coordinates
     @vert_coords = make_vertical_coordinates
     @cells = make_cells
-    @size = size
-  end
-
-  def board_maker
-    puts 'Please choose your board width (a number from 1-20):'
-    @width = gets.chomp.to_i
-    puts 'Please choose your board heigtht (a number from 1-20):'
-    @height = gets.chomp.to_i
-    @height = (@height += 65).chr
-    player_board = Board.new(@width, @height)
-    computer_board = Board.new(@width, @height)
-    player_board.cells
-    computer_board.cells
-    # the next method we'd want to run (probably the ship maker ones I'm working on)
-    ship_build
+    @letters = letters
+    @nums = nums
   end
 
   def make_horizontal_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
+    @letters = ("A".."D").to_a
+    @nums = (1..4).to_a
     @coordinates = letters.product(nums).map {|coord| coord.join('')}
-    @size = size
   end
 
   def make_vertical_coordinates
-    @letters = ("A"..height).to_a
-    @nums = (1..width).to_a
+    @letters = ("A".."D").to_a
+    @nums = (1..4).to_a
     @vert_coords = nums.product(letters).map {|num| num.join('').reverse}
   end
 
@@ -94,43 +66,36 @@ class Board
     end
   end
 
-  def place(ship_object, coordinates)
-    #place ship class object instead of just ship name
-    #so that ship object is linked to cell
-    coordinates.map do |coord|
-      @cells[coord].place_ship(ship_object)
-    end
+  def place(ship, coordinates)
+    coordinates.map {|coord| @cells[coord].place_ship(ship)}
   end
 
   def render(boolean = false)
-    index = 0
-    index_2 = 0
-    index_3 = 0
-    array = []
-    final_board = ""
-
-    final_board.concat("  #{nums * " "}\n")
-    while index < (letters.length)
-      while index_2 < (index_3 + (@nums.length))
-      while index_2 < (index_3 + (@letters.length))
-        array << @cells[@coordinates[index_2]].render(boolean)
-        index_2 += 1
-      end
-    final_board.concat("#{@letters[index]} #{array * " "}\n")
-    index_2
-    index_3 += @nums.length
-    array.clear
-    index += 1
+    line_1 = []
+    line_2 = []
+    line_3 = []
+    line_4 = []
+    @coordinates[0..(@letters.length-1)].each do |coordinate|
+      line_1 << @cells[coordinate].render(boolean)
     end
-    puts final_board
-    final_board
+    @coordinates[@letters.length..7].each do |coordinate|
+      line_2 << @cells[coordinate].render(boolean)
+    end
+    @coordinates[8..11].each do |coordinate|
+      line_3 << @cells[coordinate].render(boolean)
+    end
+    @coordinates[12..15].each do |coordinate|
+      line_4 << @cells[coordinate].render(boolean)
+    end
+    puts "  #{nums * " "} \n"
+    puts "#{@letters[0]} #{line_1 * " "}"
+    puts "#{@letters[1]} #{line_2 * " "}"
+    puts "#{@letters[2]} #{line_3 * " "}"
+    puts "#{@letters[3]} #{line_4 * " "}"
+
   end
 
-  def fire_on(cell)
-      if valid_coordinate?(cell) == false
-        return "You can't do that idiot! Choose again!"
-      end
-      @cells[cell].fire_upon
-      puts render
+  def track_cells
+
   end
 end

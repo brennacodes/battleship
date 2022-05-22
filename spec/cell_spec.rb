@@ -1,9 +1,11 @@
-require './lib2/ship'
-require './lib2/cell'
+require './lib/helper'
+# require './lib/messages'
 
 RSpec.describe do
   let!(:cell) {Cell.new("B4")}
-  let!(:cell_2) {Cell.new("C3")}
+  let!(:cell1) {Cell.new("B3")}
+  let!(:cell2) {Cell.new("B2")}
+  let!(:cell3) {Cell.new("C3")}
   let!(:cruiser) {Ship.new("Cruiser", 3)}
 
   it "is an instance of" do
@@ -43,26 +45,32 @@ RSpec.describe do
   end
 
   it "can render a string element depending on state" do
-    cell.render
     expect(cell.render).to eq(".")
-    # cell.fire_upon
-    # expect(cell.render(true)).to eq("M")
-    cell_2.place_ship(cruiser)
-    cell_2.render
-    expect(cell_2.render).to eq(".")
-    cell_2.render(true)
-    expect(cell_2.render(true)).to eq("S")
-    cell_2.fire_upon
-    expect(cell_2.render).to eq("H")
+    cell.fire_upon
+    expect(cell.render).to eq(".")
+    expect(cell.render(true)).to eq("M")
+    cell1.place_ship(cruiser)
+    cell2.place_ship(cruiser)
+    cell3.place_ship(cruiser)
+    expect(cell3.render).to eq(".")
+    expect(cell3.render(true)).to eq("S")
+    cell3.fire_upon
+    expect(cell3.render(true)).to eq("H")
+    cell2.fire_upon
+    cell1.fire_upon
+    expect(cell1.render(true)).to eq("X")
+    expect(cell2.render(true)).to eq("X")
+    expect(cell3.render(true)).to eq("X")
   end
 
   it "can see if a ship sinks and changes the render" do
-    cell_2.place_ship(cruiser)
-    cell_2.fire_upon
+    cell3.place_ship(cruiser)
+    cell3.fire_upon
     expect(cruiser.sunk?).to eq(false)
     cruiser.hit
     cruiser.hit
     expect(cruiser.sunk?).to eq(true)
-    expect(cell_2.render).to eq("X")
+    expect(cell3.render(true)).to eq("X")
+    expect(cell3.render).to eq(".")
   end
 end

@@ -1,47 +1,34 @@
 module Messages
-  def welome
-    puts "Welcome to BATTLESHIP\n
-          Enter p to play. Enter q to quit."
+  def welcome
+    puts "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit."
   end
 
   def add_player
-    puts "Please type your name.\n
-    Press `Enter` to continue."
+    puts "Please type your name.\nPress `Enter` to continue."
   end
 
   def begin_message
-    puts "I have laid out my ships on the grid.\n
-    You now need to lay out your two ships.\n
-    The Cruiser is 3 units long and the Submarine is 2 units long."
+    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is 3 units long and the Submarine is 2 units long."
   end
 
   def ships_to_be_placed
-    puts "Your fleet includes the ships below:\n
-    #{p1_ships}"
+    puts "Your fleet includes the ships below:\n"
   end
 
   def place_ship
-    puts "Enter the coordinates for the #{player_ship[0].name} (#{player_ships[0].length} spaces).\n
-    For example: 'A1 A2 A3'
-    > "
+    puts "Enter the coordinates for the #{p1_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
-    puts "You entered #{coordinates}.\n
-    Those are invalid coordinates.\n
-    Please try again:\n
-    > "
+    puts "❗️You entered #{@input}.\n❗️Those are invalid coordinates.\n❗️Please try again..."
   end
 
-  def take_shot
-    puts "Enter the coordinate for your shot:\n
-    > "
+  def your_shot
+    puts "Enter the coordinate for your shot:\n> "
   end
 
   def invalid_shot
-    puts "#{coordinate} is not a valid coordinate.\n
-    Please enter a valid coordinate:\n
-    > "
+    puts "#{coordinate} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
   end
 
   def line_break
@@ -53,7 +40,7 @@ module Messages
   end
 
   def shot_result
-    puts "Your shot on #{coordinate} was a miss."
+    puts "Your shot on #{@input} was a miss."
   end
 
   def computer_missed_shot
