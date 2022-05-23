@@ -1,4 +1,5 @@
-require './lib/helper'
+require './lib/cell'
+require './lib/ship'
 # require './lib/messages'
 
 RSpec.describe do

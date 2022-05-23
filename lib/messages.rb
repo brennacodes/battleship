@@ -1,6 +1,6 @@
 module Messages
   def welcome
-    puts "Welcome to BATTLESHIP\n Enter 'play' to play. Enter 'quit' to quit."
+    puts "Welcome to BATTLESHIP\nEnter 'play' to play. Enter 'quit' to quit at any time."
   end
 
   def add_player
@@ -8,7 +8,7 @@ module Messages
   end
 
   def begin_message
-    puts "I have laid out my ships on my *super secret* board.\nYou now need to lay out your two ships.\n I am a computer, so I can 'technically' see your ships, but I'm not actually looking.\nPromise."
+    puts "I have laid out my ships on my ✨super secret✨ board.\nNow you need to lay out your two ships.\n I am a computer, so I can 'technically' see your ships,\nbut I'm not actually 'looking'...👀\nPromise."
   end
 
   def ships_to_be_placed
@@ -23,12 +23,16 @@ module Messages
     puts "❗️You entered #{@input}.\n❗️Those are invalid coordinates.\n❗️Please try again..."
   end
 
-  def your_shot
-    puts "Enter the coordinate for your shot:\n> "
+  def invalid_coordinate
+    puts "#{@input} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
   end
 
   def invalid_shot
-    puts "#{coordinate} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
+    puts "You've already shot there.\nMaybe try a different coordinate:\n> "
+  end
+
+  def your_shot
+    puts "Enter the coordinate for your shot:\n"
   end
 
   def line_break
@@ -36,11 +40,19 @@ module Messages
   end
 
   def board_header
-    puts "=============#{current_player}'s BOARD============="
+    puts "=============#{@player.name}'s BOARD============="
   end
 
-  def shot_result
+  def missed_shot
     puts "Your shot on #{@input} was a miss."
+  end
+
+  def hit_shot
+    puts "Your shot on #{@input} was a hit."
+  end
+
+  def sunk_shot
+    puts "Your shot on #{@input} sunk my ship."
   end
 
   def computer_missed_shot

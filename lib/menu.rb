@@ -1,4 +1,4 @@
-require_relative 'helper'
+require_relative 'game'
 
 game = Game.new
 game.start_game

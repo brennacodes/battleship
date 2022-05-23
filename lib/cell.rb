@@ -1,8 +1,6 @@
-# require_relative 'helper'
-require_relative 'ship'
+require_relative 'helper'
 require_relative 'messages'
 require_relative 'cell_states'
-
 
 class Cell
   include Messages
@@ -54,5 +52,6 @@ class Cell
     return hit if direct_hit? == true
     return sunk if ship_sunk? == true
     return ship_here if ship_placed_here? == true
+    return empty_cell if empty_cell? == true
   end
 end

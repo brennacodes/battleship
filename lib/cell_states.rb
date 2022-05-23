@@ -8,7 +8,7 @@ module CellStates
   end
 
   def miss
-    "M"
+    ['🐳', '🐋', '🦈', '🐬', '🐙', '🦑', '🐠', '🐟'].sample
   end
 
   def direct_hit?
@@ -20,7 +20,7 @@ module CellStates
   end
 
   def hit
-    "H"
+    "💥"
   end
 
   def ship_sunk?
@@ -32,7 +32,7 @@ module CellStates
   end
 
   def sunk
-    "X"
+    "💀"
   end
 
   def ship_placed_here?
@@ -40,7 +40,7 @@ module CellStates
   end
 
   def ship_here
-    "S"
+    "🚢"
   end
 
   def empty_cell?
@@ -48,10 +48,17 @@ module CellStates
   end
 
   def empty_cell
-    "."
+    "🌊"
   end
 
   def invisible
-    "."
+    "🌊"
+  end
+
+  def hashy
+    num = ['⓵', '⓶', '⓷', '⓸', '⓹', '⓺', '⓻', '⓼', '⓽', '⓾']
+    lets =  ['🅰', '🅱', '🅲', '🅳', '🅴', '🅵', '🅶', '🅷', '🅸', '🅹']
+    new = num.zip(lets)
+    new = new.to_h
   end
 end
