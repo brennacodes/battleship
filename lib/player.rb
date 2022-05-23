@@ -8,7 +8,7 @@ class Player
     @name = name
     @fleet = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
     @fleet_health = fleet_health
-    @board = Board.new
+    @board = Board.new(10)
   end
 
   def fleet_health

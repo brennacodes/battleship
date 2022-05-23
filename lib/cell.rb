@@ -1,5 +1,8 @@
-require 'messages'
-require 'cell_states'
+# require_relative 'helper'
+require_relative 'ship'
+require_relative 'messages'
+require_relative 'cell_states'
+
 
 class Cell
   include Messages

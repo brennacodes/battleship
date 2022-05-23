@@ -1,5 +1,5 @@
-require './lib/helper'
-require './lib/messages'
+require_relative 'helper'
+require_relative 'messages'
 
 class Game
   include Messages
@@ -15,18 +15,22 @@ class Game
     @input = ''
   end
 
-  def p1_ships
+  def input_validation
+    abort "So long until next time!" if @input == 'quit'
+  end
+
+  def player_ships
     ships =  @player.fleet
     ships.map do |ship|
       puts "#{ship.type}: #{ship.length} units"
     end
   end
 
-  def p1_ship_name(which)
+  def player_ship_name(which)
     @player.fleet[which].type
   end
 
-  def p1_board
+  def player_board
     @player.board
   end
 
@@ -42,20 +46,18 @@ class Game
     line_break
     welcome
     @input = gets.chomp
-    if @input == 'p'
-      line_break
-      begin_message
-      p1_board.render(true)
-      setup_game
-    else
-      abort "Goodbye!" if @input == 'q'
-    end
+    input_validation
+    line_break
+    begin_message
+    line_break
+    player_board.rendering(true)
+    setup_game
   end
 
   def setup_game
     line_break
     ships_to_be_placed
-    p1_ships
+    player_ships
     ships_placed = []
     until ships_placed.length == @player.fleet.length do
       line_break
@@ -63,8 +65,8 @@ class Game
       @input = gets.chomp
       @input = @input.split(' ')
       ship = @player.fleet.first
-      if p1_board.valid_placement?(ship, @input) == true
-        p1_board.place(ship, @input)
+      if player_board.valid_placement?(ship, @input) == true
+        player_board.place(ship, @input)
         ships_placed << ship
         @player.fleet.rotate!
       else
@@ -80,20 +82,17 @@ class Game
     ship = @computer.fleet.first
     until c_ships_placed.length == @computer.fleet.length do
       line_break
-      puts "This is your captain speaking"
       place_ship
       @input = gets.chomp
       @input = @input.split(' ')
       if computer_board.valid_placement?(ship, @input) == true
         computer_board.place(ship, @input)
         c_ships_placed << ship
+        @computer.fleet.rotate!
       else
         line_break
         invalid_coordinates
       end
-      @computer.fleet.rotate!
-      require "pry"; binding.pry
-
     end
     player_turn
   end
@@ -103,7 +102,7 @@ class Game
     @input = gets.chomp
     take_shot(@input)
     return invalid_shot if valid_shot? == false
-    shot = p1_board.cells[@input]
+    shot = player_board.cells[@input]
     shot.fire_upon
     shot_result
     @player.fleet_health == 0 ? end_game : computer_turn

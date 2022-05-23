@@ -1,6 +1,6 @@
 module Messages
   def welcome
-    puts "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit."
+    puts "Welcome to BATTLESHIP\n Enter 'play' to play. Enter 'quit' to quit."
   end
 
   def add_player
@@ -8,7 +8,7 @@ module Messages
   end
 
   def begin_message
-    puts "I have laid out my ships on the grid.\nYou now need to lay out your two ships.\nThe Cruiser is 3 units long and the Submarine is 2 units long."
+    puts "I have laid out my ships on my *super secret* board.\nYou now need to lay out your two ships.\n I am a computer, so I can 'technically' see your ships, but I'm not actually looking.\nPromise."
   end
 
   def ships_to_be_placed
@@ -16,7 +16,7 @@ module Messages
   end
 
   def place_ship
-    puts "Enter the coordinates for the #{p1_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
+    puts "Enter the coordinates for the #{player_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
