@@ -25,6 +25,7 @@ class Cell
 
   def place_ship(type)
     @ship = type
+    @ship.placed = true
   end
 
   def fired_upon?

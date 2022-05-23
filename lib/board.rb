@@ -88,8 +88,14 @@ class Board
   end
 
   def take_shot(coordinate)
-    return invalid_coordinate if valid_coordinate?(coordinate) == false
-    return invalid_shot if valid_shot?(coordinate) == false
-    @cells[coordinate].fire_upon
+    if valid_coordinate?(coordinate) == false
+      invalid_coordinate
+      player_turn
+    elsif valid_shot?(coordinate) == false
+      invalid_shot
+      player_turn
+    else
+      @cells[coordinate].fire_upon
+    end
   end
 end

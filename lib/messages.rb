@@ -28,7 +28,7 @@ module Messages
   end
 
   def invalid_shot
-    puts "You've already shot there.\nMaybe try a different coordinate:\n> "
+    puts "You can't shoot there.\nMaybe try a different coordinate:\n> "
   end
 
   def your_shot

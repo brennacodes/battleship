@@ -53,30 +53,35 @@ class Game
     line_break
     player_board.rendering(true)
     line_break
-    setup_game
+    get_ready
   end
 
-  def setup_game
+  def get_ready
     ships_to_be_placed
     player_ships
-    ships_placed = []
+    line_break
+    player_setup
+  end
+
+  def player_setup
     (@player.fleet.length).times do
-      line_break
+      ship = @player.fleet.first
       place_ship
       line_break
       @input = gets.chomp
-      line_break
-      input_validation
       @input = @input.split(' ')
-      ship = @player.fleet.first
-      if player_board.valid_placement?(ship, @input) == true
-        player_board.place(ship, @input)
-        ships_placed.push(ship)
-        @player.fleet.rotate!
-        player_board.rendering(true)
-      else
-        line_break
-        invalid_coordinates
+      input_validation
+      line_break
+      if ship.placed == false
+        if player_board.valid_placement?(ship, @input) == true
+          player_board.place(ship, @input)
+          @player.fleet.rotate!
+          player_board.rendering(true)
+          line_break
+        else
+          invalid_coordinates
+          line_break
+        end
       end
     end
     computer_setup
@@ -102,15 +107,16 @@ class Game
       end
       computer_board.place(ship, placement)
     end
-    setup_game
+    player_turn
   end
 
   def player_turn
-    board_header
-    player_board.rendering(true)
+    # board_header
+    # player_board.rendering(true)
     line_break
     your_shot
     @input = gets.chomp
+    input_validation
     computer_board.take_shot(@input)
     shot_analysis
     @computer.fleet_health == 0 ? end_game : computer_turn
