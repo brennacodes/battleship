@@ -8,7 +8,7 @@ module Messages
   end
 
   def begin_message
-    puts "I have laid out my ships on my ✨super secret✨ board.\nNow you need to lay out your two ships.\n I am a computer, so I can 'technically' see your ships,\nbut I'm not actually 'looking'...👀\nPromise."
+    puts "I have laid out my ships on my ✨super secret✨ board.\nNow you need to lay out your two ships.\nI am a computer, so I can 'technically' see your ships,\nbut I'm not actually 'looking'...👀\nPromise."
   end
 
   def ships_to_be_placed

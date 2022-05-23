@@ -81,6 +81,7 @@ class Game
         else
           invalid_coordinates
           line_break
+          player_setup
         end
       end
     end
@@ -125,9 +126,9 @@ class Game
   def computer_turn
     shots_available = @player.board.shots_available
     shot = shots_available.sample
-    player_board.take_shot(shot)
-    require "pry"; binding.pry
+    player_board.take_shot(shot.coordinate)
     shot.render(true) == miss ? computer_missed_shot : computer_made_shot
+    require "pry"; binding.pry
     @player.fleet_health == 0 ? end_game : computer_turn
   end
 

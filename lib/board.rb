@@ -50,7 +50,8 @@ class Board
   end
 
   def shots_available
-    @cells.values.select {|cell| cell.fired == false ? cell.coordinate : nil}.compact
+    @cells.values.select! {|cell| cell.fired == false ? cell.coordinate : nil}.compact
+require "pry"; binding.pry
   end
 
   def valid_placement?(ship, coordinates)
@@ -90,10 +91,8 @@ class Board
   def take_shot(coordinate)
     if valid_coordinate?(coordinate) == false
       invalid_coordinate
-      player_turn
     elsif valid_shot?(coordinate) == false
       invalid_shot
-      player_turn
     else
       @cells[coordinate].fire_upon
     end
