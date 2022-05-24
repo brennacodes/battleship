@@ -45,7 +45,7 @@ class Cell
   end
 
   def render(visibility = false)
-    visibility ? make_visible : invisible
+    visibility ? make_visible : invisible_ships
   end
 
   def make_visible
@@ -53,6 +53,14 @@ class Cell
     return hit if direct_hit? == true
     return sunk if ship_sunk? == true
     return ship_here if ship_placed_here? == true
+    return empty_cell if empty_cell? == true
+  end
+
+  def invisible_ships
+    return miss if missed? == true
+    return hit if direct_hit? == true
+    return sunk if ship_sunk? == true
+    return invisible if ship_placed_here? == true
     return empty_cell if empty_cell? == true
   end
 end

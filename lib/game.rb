@@ -17,7 +17,7 @@ class Game
   end
 
   def input_validation
-    abort "So long until next time!" if @input == 'quit'
+    abort "So long until next time!" if @input == 'quit' || @input == 'QUIT'
   end
 
   def player_ships
@@ -46,7 +46,7 @@ class Game
   def start_game
     line_break
     welcome
-    @input = gets.chomp
+    @input = gets.chomp.upcase
     input_validation
     line_break
     begin_message
@@ -68,7 +68,7 @@ class Game
       ship = @player.fleet.first
       place_ship
       line_break
-      @input = gets.chomp
+      @input = gets.chomp.upcase
       @input = @input.split(' ')
       input_validation
       line_break
@@ -79,6 +79,7 @@ class Game
           player_board.rendering(true)
           line_break
         else
+          input_validation
           invalid_coordinates
           line_break
           player_setup
@@ -118,7 +119,7 @@ class Game
     computer_board.rendering
     line_break
     your_shot
-    @input = gets.chomp
+    @input = gets.chomp.upcase
     input_validation
     line_break
     computer_board.take_shot(@input)
@@ -151,28 +152,4 @@ class Game
     line_break
     Menu.new.start_game
   end
-
 end
-
-# def computer_setup
-#   c_ships = @computer.fleet
-#   c_board = @computer.board
-#   ships_placed = []
-#   until ships_placed.length == @computer.fleet.length do
-#     places = computer_board.coordinates
-#     num_places = []
-#     c_ships.each {|ship| num_places << ship.length}
-#     coordinates = []
-#     num_places[0].times {coordinates << places.sample}
-#     ship = c_ships[0]
-#     if computer_board.valid_placement?(ship, [coordinates]) == true
-#       computer_board.place(ship, [coordinates])
-#       ships_placed << ship
-#       coordinates = []
-#       c_ships.rotate!
-#     else
-#       computer_setup
-#     end
-#   end
-#   player_turn
-# end
