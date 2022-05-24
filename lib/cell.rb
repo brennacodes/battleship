@@ -37,10 +37,10 @@ class Cell
       @ship.health -= 1
       @fired = true
     elsif missed? == true
-      "Can't fire here."
-    else
-      @fired = true
       "Big miss there, bud."
+      @fired = true
+    else
+      "Can't fire here."
     end
   end
 

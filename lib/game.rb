@@ -154,9 +154,9 @@ class Game
 # TURNS ---------------------------------------
   def player_turn
     board_header
-    player_board.rendering(true)
+    player_board.rendering(@player.name, true)
     computer_header
-    computer_board.rendering
+    computer_board.rendering(@computer.name)
     line_break
     your_shot
     @input = gets.chomp.upcase
