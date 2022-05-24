@@ -116,7 +116,6 @@ class Game
   def computer_ships_placed?
     placed = @computer.fleet.map {|ship| ship.placed == true}
     placed.all?(true) == true ? player_turn : computer_ship_to_place
-    require "pry"; binding.pry
   end
 
   def computer_ship_to_place
@@ -125,7 +124,7 @@ class Game
   end
 
   def computer_ship_placement(this_ship)
-    spaces = @ship.length
+    spaces = this_ship.length
     a = computer_board.columns.map {|col| col.each_cons(spaces)}
     a = a.map {|arr| arr.map {|sub| sub}}.flatten(1)
     b = computer_board.rows.map {|row| row.each_cons(spaces)}
@@ -146,11 +145,10 @@ class Game
   end
 
   def computer_place_ship(ship, coordinates)
-    computer_board.place(ship, @input)
+    computer_board.place(ship, coordinates)
     computer_board.rendering(true)
     line_break
     computer_ships_placed?
-    require "pry"; binding.pry
   end
 
 # TURNS ---------------------------------------
