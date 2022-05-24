@@ -46,12 +46,15 @@ class Board
   end
 
   def space_available
-    @cells.values.map {|cell| cell.ship == nil ? cell.coordinate : nil}.compact
+    spaces = []
+    @cells.values.map {|cell| cell.ship == nil ? spaces.push(cell.coordinate) : spaces.push(nil)}
+    spaces.compact
   end
 
   def shots_available
-    @cells.values.select! {|cell| cell.fired == false ? cell.coordinate : nil}.compact
-require "pry"; binding.pry
+    shots = []
+    @cells.values.select! {|cell| cell.fired == false ? shots.push(cell.coordinate) : shots.push(nil)}
+    shots.compact
   end
 
   def valid_placement?(ship, coordinates)

@@ -126,6 +126,7 @@ class Game
   def computer_turn
     shots_available = @player.board.shots_available
     shot = shots_available.sample
+    require "pry"; binding.pry
     player_board.take_shot(shot.coordinate)
     shot.render(true) == miss ? computer_missed_shot : computer_made_shot
     require "pry"; binding.pry
