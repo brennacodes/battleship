@@ -58,7 +58,6 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    abort "See you next time!" if coordinates == 'quit' || coordinates == 'QUIT'
     spaces = coordinates.length
     return false if ship.length != spaces
     a = @columns.map {|col| col.each_cons(spaces)}
@@ -69,12 +68,21 @@ class Board
     c = c.map {|arr| arr.map {|sub| sub}}.flatten(1)
     d = @rows.map {|row| row.reverse.each_cons(spaces)}
     d = d.map {|arr| arr.map {|sub| sub}}.flatten(1)
-    all_spaces = a.concat(b, c, d)
-    all_spaces = all_spaces.uniq.sort
-    all_spaces.any?(coordinates) ? true : false
-    # space = space_available + space_available.reverse
-    # check = space.intersection(coordinates)
-    # return false if check != coordinates
+    all_places = a.concat(b, c, d)
+    all_places = all_places.uniq.sort
+    if all_places.any?(coordinates) == true
+      true
+    else
+      return false
+    end
+    open_spaces_test = coordinates.map do |coord|
+        space_available.include?(coord)
+      end
+    if open_spaces_test.all?(true) == true
+      true
+    else
+      return false
+    end
   end
 
   def place(ship, coordinates)

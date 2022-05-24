@@ -14,8 +14,9 @@ class Game
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
     @input = ''
+    @ship = ''
   end
-
+# HOUSEKEEPING ---------------------------------------
   def input_validation
     abort "So long until next time!" if @input == 'quit' || @input == 'QUIT'
   end
@@ -27,8 +28,14 @@ class Game
     end
   end
 
-  def player_ship_name(which)
-    @player.fleet[which].type
+  def player_ship_name
+    ship = @player.fleet.find {|boat| boat.placed == false}
+    ship.type
+  end
+
+  def player_ship_length
+    ship = @player.fleet.find {|boat| boat.placed == false}
+    ship.length
   end
 
   def player_board
@@ -43,6 +50,8 @@ class Game
     @computer.board
   end
 
+# GAME START ---------------------------------------
+
   def start_game
     line_break
     welcome
@@ -50,68 +59,101 @@ class Game
     input_validation
     line_break
     begin_message
-    line_break
-    player_board.rendering(true)
-    line_break
     get_ready
   end
 
+# PLAYER SETUP ---------------------------------------
+
   def get_ready
+    line_break
+    player_board.rendering(true)
+    line_break
     ships_to_be_placed
     player_ships
+    line_break
+    ships_placed?
+  end
+
+  def ships_placed?
+    placed = @player.fleet.map {|ship| ship.placed == true}
+    placed.all?(true) == true ? computer_ships_placed? : ship_to_place
+  end
+
+  def ship_to_place
+    @ship = @player.fleet.find {|boat| boat.placed == false}
+    place_your_ship
     line_break
     player_setup
   end
 
   def player_setup
-    (@player.fleet.length).times do
-      ship = @player.fleet.first
-      place_ship
-      line_break
-      @input = gets.chomp.upcase
-      @input = @input.split(' ')
-      abort "So long!" if @input == 'quit' || @input == 'QUIT'
-      line_break
-      if ship.placed == false
-        if player_board.valid_placement?(ship, @input) == true
-          player_board.place(ship, @input)
-          @player.fleet.rotate!
-          player_board.rendering(true)
-          line_break
-        else
-          input_validation
-          invalid_coordinates
-          line_break
-          player_setup
-        end
-      end
-    end
-    computer_setup
+    @input = gets.chomp.upcase
+    @input = @input.split(' ')
+    input_validation
+    line_break
+    validate_placement(@ship, @input)
   end
 
-  def computer_setup
-    spots = computer_board.rows + computer_board.columns
-    new_places = spots.map {|place| place.reverse}
-    spots = (spots + new_places).sort
-    fleet = @computer.fleet
-    fleet.map do |ship|
-      places = []
-      spaces = ship.length
-      enum = spots.map {|place| place.each_cons(spaces)}
-      enum.each do |arr|
-        arr.map do |e|
-          places.push(e)
-        end
-      end
-      placement = places.sample
-      until computer_board.valid_placement?(ship, placement) == true do
-        placement = places.sample
-      end
-      computer_board.place(ship, placement)
+  def validate_placement(ship, coordinates)
+    if player_board.valid_placement?(ship, coordinates) == true
+      place_ship(ship, coordinates)
+    else
+      invalid_coordinates
+      line_break
+      player_setup
     end
-    player_turn
   end
 
+  def place_ship(ship, coordinates)
+    player_board.place(ship, coordinates)
+    player_board.rendering(true)
+    line_break
+    ships_placed?
+  end
+
+# COMPUTER SETUP ---------------------------------------
+
+  def computer_ships_placed?
+    placed = @computer.fleet.map {|ship| ship.placed == true}
+    placed.all?(true) == true ? player_turn : computer_ship_to_place
+    require "pry"; binding.pry
+  end
+
+  def computer_ship_to_place
+    @ship = @computer.fleet.find {|boat| boat.placed == false}
+    computer_ship_placement(@ship)
+  end
+
+  def computer_ship_placement(this_ship)
+    spaces = @ship.length
+    a = computer_board.columns.map {|col| col.each_cons(spaces)}
+    a = a.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    b = computer_board.rows.map {|row| row.each_cons(spaces)}
+    b = b.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    spots = a.concat(b)
+    coordinates = spots.sample
+    computer_validate_placement(this_ship, coordinates)
+  end
+
+  def computer_validate_placement(ship, coordinates)
+    if computer_board.valid_placement?(ship, coordinates) == true
+      computer_place_ship(ship, coordinates)
+    else
+      invalid_coordinates
+      line_break
+      computer_ship_placement(@ship)
+    end
+  end
+
+  def computer_place_ship(ship, coordinates)
+    computer_board.place(ship, @input)
+    computer_board.rendering(true)
+    line_break
+    computer_ships_placed?
+    require "pry"; binding.pry
+  end
+
+# TURNS ---------------------------------------
   def player_turn
     board_header
     player_board.rendering(true)
@@ -140,7 +182,7 @@ class Game
     return missed_shot if computer_board.cells[@input].missed? == true
     return hit_shot if computer_board.cells[@input].direct_hit? == true
   end
-
+# END GAME ---------------------------------------
   def end_game
     if @player.fleet_health > @computer.fleet_health
       winner = @player.name

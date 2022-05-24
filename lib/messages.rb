@@ -15,8 +15,8 @@ module Messages
     puts "Your fleet includes the ships below:\n"
   end
 
-  def place_ship
-    puts "⬇ Enter the coordinates for the #{player_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
+  def place_your_ship
+    puts "⬇ Enter the coordinates for the #{@ship.type} (#{@ship.length} coordinates).\nFor example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
@@ -36,17 +36,17 @@ module Messages
   end
 
   def line_break
-    puts "⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜"
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️"
     puts "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊"
-    puts "⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜⏝⏜"
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️"
   end
 
   def board_header
-    puts "=============#{@player.name}'s BOARD============="
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️#{@player.name}'s BOARD⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️"
   end
 
   def computer_header
-    puts "=============COMPUTER's BOARD============="
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️COMPUTER's BOARD⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️"
   end
 
   def missed_shot
@@ -70,8 +70,8 @@ module Messages
   end
 
   def game_over(winner)
-    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
+    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉"
     puts "🎉#{winner} won!🎉"
-    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
+    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉"
   end
 end
