@@ -146,7 +146,7 @@ class Game
 
   def computer_place_ship(ship, coordinates)
     computer_board.place(ship, coordinates)
-    computer_board.rendering(true)
+    computer_board.rendering
     line_break
     computer_ships_placed?
   end
@@ -154,9 +154,9 @@ class Game
 # TURNS ---------------------------------------
   def player_turn
     board_header
-    player_board.rendering(@player.name, true)
+    player_board.rendering(true)
     computer_header
-    computer_board.rendering(@computer.name)
+    computer_board.rendering
     line_break
     your_shot
     @input = gets.chomp.upcase
