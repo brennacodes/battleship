@@ -79,6 +79,7 @@ class Game
           player_board.rendering(true)
           line_break
         else
+          input_validation
           invalid_coordinates
           line_break
           player_setup
@@ -113,9 +114,9 @@ class Game
 
   def player_turn
     board_header
-    player_board.rendering(true)
+    player_board.rendering(@player.name, true)
     computer_header
-    computer_board.rendering
+    computer_board.rendering(@computer.name)
     line_break
     your_shot
     @input = gets.chomp
