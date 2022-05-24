@@ -89,7 +89,7 @@ class Board
     coordinates.map {|coord| @cells[coord].place_ship(ship)}
   end
 
-  def rendering(player, visibility = false)
+  def rendering(visibility = false)
     num = [' ⓵', ' ⓶', ' ⓷', ' ⓸']
     # , '⓹', '⓺', '⓻', '⓼', '⓽', '⓾']
     alphabet = ('A'..'J').to_a
@@ -100,7 +100,7 @@ class Board
     puts "  " + num.join(' ')
     @board_rows.each do |key, value|
       output = value.map do |v|
-        @cells[v].render(player, visibility)
+        @cells[v].render(visibility)
       end
       puts letters[key[0]] + " " + output.join(' ')
     end
