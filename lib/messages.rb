@@ -16,7 +16,7 @@ module Messages
   end
 
   def place_ship
-    puts "Enter the coordinates for the #{player_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
+    puts "⬇Enter the coordinates for the #{player_ship_name(0)} (#{@player.fleet[0].length} coordinates).\nFor example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
@@ -24,46 +24,50 @@ module Messages
   end
 
   def invalid_coordinate
-    puts "#{@input} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
+    puts "❗️#{@input} is not a valid coordinate.\nPlease enter a valid coordinate:\n> "
   end
 
   def invalid_shot
-    puts "You can't shoot there.\nMaybe try a different coordinate:\n> "
+    puts "❓You can't shoot there.\nMaybe try a different coordinate:\n> "
   end
 
   def your_shot
-    puts "Enter the coordinate for your shot:\n"
+    puts "⬇Enter the coordinate for your shot:\n"
   end
 
   def line_break
-    puts "================================================"
+    puts "🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊"
   end
 
   def board_header
     puts "=============#{@player.name}'s BOARD============="
   end
 
+  def computer_header
+    puts "=============COMPUTER's BOARD============="
+  end
+
   def missed_shot
-    puts "Your shot on #{@input} was a miss."
+    puts "Your shot on #{@input} was a miss👎."
   end
 
   def hit_shot
-    puts "Your shot on #{@input} was a hit."
+    puts "Your shot on #{@input} was a hit💥."
   end
 
   def sunk_shot
-    puts "Your shot on #{@input} sunk my ship."
+    puts "Your shot on #{@input} sunk my ship💀."
   end
 
-  def computer_missed_shot
-    puts "My shot on #{shot} was a miss."
+  def computer_missed_shot(shot)
+    puts "My shot on #{shot} was a miss👎."
   end
 
-  def computer_made_shot
-    puts "My shot on #{shot} was a hit."
+  def computer_made_shot(shot)
+    puts "My shot on #{shot} was a hit💥."
   end
 
-  def end_game
-    puts "#{winner} won!"
+  def game_over(winner)
+    puts "🎉#{winner} won!🎉"
   end
 end

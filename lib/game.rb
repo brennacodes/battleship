@@ -112,12 +112,15 @@ class Game
   end
 
   def player_turn
-    # board_header
-    # player_board.rendering(true)
+    board_header
+    player_board.rendering(true)
+    computer_header
+    computer_board.rendering
     line_break
     your_shot
     @input = gets.chomp
     input_validation
+    line_break
     computer_board.take_shot(@input)
     shot_analysis
     @computer.fleet_health == 0 ? end_game : computer_turn
@@ -126,11 +129,9 @@ class Game
   def computer_turn
     shots_available = @player.board.shots_available
     shot = shots_available.sample
-    require "pry"; binding.pry
-    player_board.take_shot(shot.coordinate)
-    shot.render(true) == miss ? computer_missed_shot : computer_made_shot
-    require "pry"; binding.pry
-    @player.fleet_health == 0 ? end_game : computer_turn
+    player_board.take_shot(shot)
+    player_board.cells[shot].missed? ? computer_missed_shot(shot) : computer_made_shot(shot)
+    @player.fleet_health == 0 ? end_game : player_turn
   end
 
   def shot_analysis
@@ -140,7 +141,14 @@ class Game
   end
 
   def end_game
-    puts game_over
+    if @player.fleet_health > @computer.fleet_health
+      winner = @player.name
+    else
+      winner = @computer.name
+    end
+    line_break
+    puts game_over(winner)
+    line_break
     Menu.new.start_game
   end
 
