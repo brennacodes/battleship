@@ -70,6 +70,8 @@ module Messages
   end
 
   def game_over(winner)
+    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
     puts "🎉#{winner} won!🎉"
+    puts "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉"
   end
 end

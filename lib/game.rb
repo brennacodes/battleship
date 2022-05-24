@@ -70,7 +70,7 @@ class Game
       line_break
       @input = gets.chomp.upcase
       @input = @input.split(' ')
-      input_validation
+      abort "So long!" if @input == 'quit' || @input == 'QUIT'
       line_break
       if ship.placed == false
         if player_board.valid_placement?(ship, @input) == true
@@ -150,6 +150,10 @@ class Game
     line_break
     puts game_over(winner)
     line_break
-    Menu.new.start_game
+    go_again
+  end
+
+  def go_again
+
   end
 end

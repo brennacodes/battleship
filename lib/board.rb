@@ -58,16 +58,23 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
+    abort "See you next time!" if coordinates == 'quit' || coordinates == 'QUIT'
     spaces = coordinates.length
     return false if ship.length != spaces
-    space = space_available
-    check = space.intersection(coordinates)
-    return false if check != coordinates
-    a = @columns.map {|col| col.each_cons(spaces).include?(coordinates)}
-    b = @columns.map {|col| col.reverse.each_cons(spaces).include?(coordinates)}
-    c = @rows.map {|row| row.each_cons(spaces).include?(coordinates)}
-    d = @rows.map {|row| row.reverse.each_cons(spaces).include?(coordinates)}
-    a.concat(b, c, d).any?(true) ? true : false
+    a = @columns.map {|col| col.each_cons(spaces)}
+    a = a.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    b = @columns.map {|col| col.reverse.each_cons(spaces)}
+    b = b.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    c = @rows.map {|row| row.each_cons(spaces)}
+    c = c.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    d = @rows.map {|row| row.reverse.each_cons(spaces)}
+    d = d.map {|arr| arr.map {|sub| sub}}.flatten(1)
+    all_spaces = a.concat(b, c, d)
+    all_spaces = all_spaces.uniq.sort
+    all_spaces.any?(coordinates) ? true : false
+    # space = space_available + space_available.reverse
+    # check = space.intersection(coordinates)
+    # return false if check != coordinates
   end
 
   def place(ship, coordinates)

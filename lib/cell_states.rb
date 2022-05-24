@@ -8,7 +8,7 @@ module CellStates
   end
 
   def miss
-    ['🐳', '🐋', '🦈', '🐬', '🐙', '🦑', '🐠', '🐟'].sample
+    '🐳'
   end
 
   def direct_hit?
