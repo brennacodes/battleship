@@ -50,6 +50,10 @@ class Game
     @computer.board
   end
 
+  def ship_check
+    @ship.placed
+  end
+
 # GAME START ---------------------------------------
 
   def start_game
@@ -91,10 +95,12 @@ class Game
     @input = @input.split(' ')
     input_validation
     line_break
+    return ships_placed? if ship_check == true
     validate_placement(@ship, @input)
   end
 
   def validate_placement(ship, coordinates)
+    return ships_placed? if ship_check == true
     if player_board.valid_placement?(ship, coordinates) == true
       place_ship(ship, coordinates)
     else
@@ -139,15 +145,12 @@ class Game
       computer_place_ship(ship, coordinates)
     else
       invalid_coordinates
-      line_break
       computer_ship_placement(@ship)
     end
   end
 
   def computer_place_ship(ship, coordinates)
     computer_board.place(ship, coordinates)
-    computer_board.rendering
-    line_break
     computer_ships_placed?
   end
 
