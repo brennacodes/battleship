@@ -16,9 +16,12 @@ class Game
     @input = ''
     @ship = ''
   end
-# HOUSEKEEPING ---------------------------------------
+
   def input_validation
-    abort "So long until next time!" if @input == 'quit' || @input == 'QUIT'
+    if @input == 'quit' || @input == 'QUIT'
+      buhbye
+      abort
+    end
   end
 
   def player_ships
@@ -54,8 +57,6 @@ class Game
     @ship.placed
   end
 
-# GAME START ---------------------------------------
-
   def start_game
     line_break
     welcome
@@ -65,8 +66,6 @@ class Game
     begin_message
     get_ready
   end
-
-# PLAYER SETUP ---------------------------------------
 
   def get_ready
     line_break
@@ -117,11 +116,9 @@ class Game
     ships_placed?
   end
 
-# COMPUTER SETUP ---------------------------------------
-
   def computer_ships_placed?
     placed = @computer.fleet.map {|ship| ship.placed == true}
-    placed.all?(true) == true ? player_turn : computer_ship_to_place
+    placed.all?(true) == true ? games_begin : computer_ship_to_place
   end
 
   def computer_ship_to_place
@@ -153,7 +150,11 @@ class Game
     computer_ships_placed?
   end
 
-# TURNS ---------------------------------------
+  def games_begin
+    let_games_begin
+    player_turn
+  end
+
   def player_turn
     board_header
     player_board.rendering(true)
@@ -167,6 +168,7 @@ class Game
     your_shot
     @input = gets.chomp.upcase
     input_validation
+    line_break
     line_break
     player_make_shot
   end
@@ -194,7 +196,7 @@ class Game
     return hit_shot if computer_board.cells[@input].direct_hit? == true
     return missed_shot if computer_board.cells[@input].missed? == true
   end
-# END GAME ---------------------------------------
+
   def end_game
     if @player.fleet_health > @computer.fleet_health
       winner = @player.name
@@ -202,12 +204,12 @@ class Game
       winner = @computer.name
     end
     line_break
-    puts game_over(winner)
+    game_over(winner)
     line_break
     go_again
   end
 
   def go_again
-
+    exec 'ruby lib/menu.rb'
   end
 end
