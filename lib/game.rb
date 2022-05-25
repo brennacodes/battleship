@@ -28,13 +28,13 @@ class Game
   def player_ships
     ships =  @player.fleet
     ships.map do |ship|
-      puts "#{ship.type}: #{ship.length} units"
+      puts "#{ship.name}: #{ship.length} units"
     end
   end
 
   def player_ship_name
     ship = @player.fleet.find {|boat| boat.placed == false}
-    ship.type
+    ship.name
   end
 
   def player_ship_length
@@ -47,7 +47,7 @@ class Game
   end
 
   def computer_ship_name(index)
-    @computer.fleet[index].type
+    @computer.fleet[index].name
   end
 
   def computer_board

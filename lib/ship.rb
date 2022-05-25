@@ -1,9 +1,9 @@
 class Ship
-  attr_reader :type, :length
+  attr_reader :name, :length
   attr_accessor :health, :placed
 
-  def initialize(type, length)
-    @type = type
+  def initialize(name, length)
+    @name = name
     @length = length
     @health = length
     @placed = false

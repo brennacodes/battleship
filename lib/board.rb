@@ -60,6 +60,10 @@ class Board
   def valid_placement?(ship, coordinates)
     spaces = coordinates.length
     return false if ship.length != spaces
+    valid_array_check(spaces, coordinates)
+  end
+
+  def valid_array_check(spaces, coordinates)
     a = @columns.map {|col| col.each_cons(spaces)}
     a = a.map {|arr| arr.map {|sub| sub}}.flatten(1)
     b = @columns.map {|col| col.reverse.each_cons(spaces)}
@@ -71,10 +75,13 @@ class Board
     all_places = a.concat(b, c, d)
     all_places = all_places.uniq.sort
     if all_places.any?(coordinates) == true
-      true
+      unoccupied_spaces_check(coordinates)
     else
       return false
     end
+  end
+
+  def unoccupied_spaces_check(coordinates)
     open_spaces_test = coordinates.map do |coord|
         space_available.include?(coord)
       end

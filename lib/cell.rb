@@ -6,8 +6,10 @@ class Cell
   include Messages
   include CellStates
 
-  attr_reader :coordinate, :fired
-  attr_accessor :ship
+  attr_reader :coordinate,
+              :fired,
+              :ship
+  # attr_accessor :ship
 
   def initialize(coordinate)
     @coordinate = coordinate
@@ -38,9 +40,8 @@ class Cell
       @fired = true
     elsif missed == true
       @fired = true
-      "Big miss there, bud."
     else
-      "Can't fire here."
+      "Already fired."
     end
   end
 

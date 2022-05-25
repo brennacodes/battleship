@@ -8,16 +8,15 @@ RSpec.describe do
     expect(cruiser).to be_instance_of Ship
   end
 
+  it "has a name" do
+    expect(cruiser.name).to eq("Cruiser")
+    expect(submarine.name).to eq("Submarine")
+  end
+
   it "has a length" do
     expect(cruiser.length).to eq(3)
     expect(submarine.length).to eq(2)
   end
-
-  it "has a type" do
-    expect(cruiser.type).to eq("Cruiser")
-    expect(submarine.type).to eq("Submarine")
-  end
-
 
   it "can track its health" do
     expect(cruiser.health).to eq(3)

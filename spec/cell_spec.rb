@@ -1,12 +1,12 @@
-require './lib/cell'
-require './lib/ship'
-# require './lib/messages'
+require './lib/helper'
+# require './lib/ship'
+# # require './lib/messages'
 
 RSpec.describe do
-  let!(:cell) {Cell.new("B4")}
-  let!(:cell1) {Cell.new("B3")}
-  let!(:cell2) {Cell.new("B2")}
-  let!(:cell3) {Cell.new("C3")}
+  let!(:cell) {Cell.new("C4")}
+  let!(:cell1) {Cell.new("B2")}
+  let!(:cell2) {Cell.new("B3")}
+  let!(:cell3) {Cell.new("B4")}
   let!(:cruiser) {Ship.new("Cruiser", 3)}
 
   it "is an instance of" do
@@ -14,64 +14,58 @@ RSpec.describe do
   end
 
   it "has a coordinate" do
-    expect(cell.coordinate).to eq("B4")
+    expect(cell.coordinate).to eq("C4")
   end
 
   it "has a ship" do
     expect(cell.ship).to eq(nil)
   end
 
-  it "can see ships" do
-    cell.place_ship(cruiser)
-    expect(cell.ship).to eq(cruiser)
-  end
-
-  it 'is empty unless a ship is there' do
+  it "can check if it's emptyor not" do
     expect(cell.empty?).to eq(true)
     cell.place_ship(cruiser)
     expect(cell.empty?).to eq(false)
   end
 
-  it "can be fired upon" do
+  it "can place ships" do
+    cell.place_ship(cruiser)
+    expect(cell.ship).to eq(cruiser)
+  end
+
+  it "can knows when it has been fired upon" do
     expect(cell.fired_upon?).to eq(false)
     cell.place_ship(cruiser)
     cell.fire_upon
     expect(cell.fired_upon?).to eq(true)
   end
 
-  it "can change ship health" do
+  it "reduces ship health when fired upon" do
     cell.place_ship(cruiser)
+    expect(cell.fired_upon?).to eq(false)
+    expect(cell.ship.health).to eq(3)
     cell.fire_upon
     expect(cell.ship.health).to eq(2)
+    expect(cell.fired_upon?).to eq(true)
   end
 
   it "can render a string element depending on state" do
-    expect(cell.render).to eq(".")
+    expect(cell.render).to eq("🌊")
     cell.fire_upon
-    expect(cell.render).to eq(".")
-    expect(cell.render(true)).to eq("M")
+    expect(cell.render).to eq("🐳")
+    expect(cell.render(true)).to eq("🐳")
     cell1.place_ship(cruiser)
     cell2.place_ship(cruiser)
     cell3.place_ship(cruiser)
-    expect(cell3.render).to eq(".")
-    expect(cell3.render(true)).to eq("S")
+    expect(cell3.render).to eq("🌊")
+    expect(cell3.render(true)).to eq("🚢")
     cell3.fire_upon
-    expect(cell3.render(true)).to eq("H")
+    expect(cell3.render(true)).to eq("💥")
+    expect(cruiser.sunk?).to eq(false)
     cell2.fire_upon
     cell1.fire_upon
-    expect(cell1.render(true)).to eq("X")
-    expect(cell2.render(true)).to eq("X")
-    expect(cell3.render(true)).to eq("X")
-  end
-
-  it "can see if a ship sinks and changes the render" do
-    cell3.place_ship(cruiser)
-    cell3.fire_upon
-    expect(cruiser.sunk?).to eq(false)
-    cruiser.hit
-    cruiser.hit
     expect(cruiser.sunk?).to eq(true)
-    expect(cell3.render(true)).to eq("X")
-    expect(cell3.render).to eq(".")
+    expect(cell1.render(true)).to eq("💀")
+    expect(cell2.render(true)).to eq("💀")
+    expect(cell3.render(true)).to eq("💀")
   end
 end

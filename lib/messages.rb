@@ -16,7 +16,7 @@ module Messages
   end
 
   def place_your_ship
-    puts "⬛️ ⬇ Enter the coordinates for the #{@ship.type} (#{@ship.length} coordinates).\n⬛️ For example: 'A1 A2 A3'"
+    puts "⬛️ ⬇ Enter the coordinates for the #{@ship.name} (#{@ship.length} coordinates).\n⬛️ For example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
