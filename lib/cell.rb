@@ -38,10 +38,8 @@ class Cell
     if direct_hit
       @ship.health -= 1
       @fired = true
-    elsif missed == true
+    else missed == true
       @fired = true
-    else
-      "Already fired."
     end
   end
 

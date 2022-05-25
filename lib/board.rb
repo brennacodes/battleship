@@ -13,9 +13,11 @@ class Board
               :board_rows,
               :board_columns
 
-  def initialize
-    @h_coordinates = make_horizontal_coordinates
-    @v_coordinates = make_vertical_coordinates
+  def initialize(width, height)
+    @width = width
+    @height = height
+    @h_coordinates = make_horizontal_coordinates(width)
+    @v_coordinates = make_vertical_coordinates(height)
     @cells = make_cells
     @board_columns = @v_coordinates.group_by {|column| column[1]}
     @board_rows = @h_coordinates.group_by {|row| row[0]}
@@ -23,13 +25,14 @@ class Board
     @rows = @board_rows.values
   end
 
-  def make_horizontal_coordinates
-    @letters = ("A".."D").to_a
-    @numbers = (1..4).to_a
+  def make_horizontal_coordinates(width)
+    range = (1..width).to_a
+    @letters = ("A".."J").to_a
+    @numbers = (1..width).to_a
     @h_coordinates = @letters.product(numbers).map {|coord| coord.join('')}
   end
 
-  def make_vertical_coordinates
+  def make_vertical_coordinates(height)
     @v_coordinates = @numbers.product(letters).map {|num| num.join('').reverse}
   end
 
@@ -98,28 +101,22 @@ class Board
 
   def rendering(visibility = false)
     num = [' ⓵', ' ⓶', ' ⓷', ' ⓸']
-    # , '⓹', '⓺', '⓻', '⓼', '⓽', '⓾']
-    alphabet = ('A'..'J').to_a
-    lets =  ['🅰', '🅱', '🅲', '🅳', '🅴', '🅵', '🅶', '🅷', '🅸', '🅹']
+    alphabet = ('A'..'D').to_a
+    lets =  ['🅰', '🅱', '🅲', '🅳']
     letters = alphabet.zip(lets).to_h
     sym = num.zip(lets)
     sym = sym.to_h
-    puts "  " + num.join(' ')
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️ " + num.join(' ')
     @board_rows.each do |key, value|
       output = value.map do |v|
         @cells[v].render(visibility)
       end
-      puts letters[key[0]] + " " + output.join(' ')
+      puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️" + letters[key[0]] + " " + output.join(' ')
     end
   end
 
+# RE-ENTER INVALID COORDINATE LOOP BREAKS HERE______________
   def take_shot(coordinate)
-    if valid_coordinate?(coordinate) == false
-      invalid_coordinate
-    elsif valid_shot?(coordinate) == false
-      invalid_shot
-    else
-      @cells[coordinate].fire_upon
-    end
+    @cells[coordinate].fire_upon
   end
 end

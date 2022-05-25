@@ -1,5 +1,5 @@
 require_relative 'helper'
-# require './lib/cell_states'
+require './lib/cell_states'
 
 class Game
   include Messages
@@ -18,6 +18,51 @@ class Game
     @ship = ''
   end
 
+  def start_game
+    line_break
+    welcome
+    @input = gets.chomp.upcase
+    input_validation
+    line_break
+    get_ready
+  end
+
+  def custom_board_question
+    custom_board_size?
+    answer = gets.chomp
+    answer == 'y' : enter_board_width : start_game
+  end
+
+  def get_board_width
+    enter_board_width
+    width = gets.chomp
+    width == Integer && width <= 10 ? get_board_height(width) : get_board_width
+  end
+
+  def get_board_height(width)
+    enter_board_height
+    height = gets.chomp
+    height == Integer && height <= 10 ? make_boards(width, height) : get_board_height
+  end
+
+  def make_boards(width, height)
+    @player.make_board(width, height)
+    @computer.make_board(width, height)
+  end
+
+  def custom_ships
+    enter_ship_name
+    name = gets.chomp
+    enter_ship_length
+    length = gets.chomp
+    @player.make_ship(name, length)
+    @computer.make_ship(name, length)
+    make_another_ship?
+    answer = gets.chomp
+    input_validation
+    answer == 'y' ? custom_ships : start_game
+  end
+
   def input_validation
     if @input == 'quit' || @input == 'QUIT'
       buhbye
@@ -28,7 +73,7 @@ class Game
   def player_ships
     ships =  @player.fleet
     ships.map do |ship|
-      puts "#{ship.name}: #{ship.length} units"
+      puts "⬛️#{ship.name}: #{ship.length} units"
     end
   end
 
@@ -54,21 +99,12 @@ class Game
     @computer.board
   end
 
-  def ship_check
+  def ship_placed?
     @ship.placed
   end
 
-  def start_game
-    line_break
-    welcome
-    @input = gets.chomp.upcase
-    input_validation
-    line_break
-    begin_message
-    get_ready
-  end
-
   def get_ready
+    begin_message
     line_break
     player_board.rendering(true)
     line_break
@@ -87,20 +123,20 @@ class Game
     @ship = @player.fleet.find {|boat| boat.placed == false}
     place_your_ship
     line_break
-    player_setup
+    enter_ship_coordinates
   end
 
-  def player_setup
+  def enter_ship_coordinates
     @input = gets.chomp.upcase
     @input = @input.split(' ')
     input_validation
     line_break
-    return ships_placed? if ship_check == true
+    return ships_placed? if ship_placed? == true
     validate_placement(@ship, @input)
   end
 
   def validate_placement(ship, coordinates)
-    return ships_placed? if ship_check == true
+    return ships_placed? if ship_placed? == true
     if player_board.valid_placement?(ship, coordinates) == true
       place_ship(ship, coordinates)
     else
@@ -153,6 +189,7 @@ class Game
 
   def games_begin
     let_games_begin
+    line_break
     player_turn
   end
 
@@ -171,17 +208,50 @@ class Game
     input_validation
     line_break
     line_break
-    player_make_shot
+    check_if_valid_coordinate
   end
 
-  def player_make_shot
-    computer_board.take_shot(@input)
-    analyze_shot
+  def check_if_valid_coordinate
+    if computer_board.valid_coordinate?(@input) == true
+      check_if_valid_shot
+    else
+      invalid_coordinate
+      player_take_shot
+    end
+  end
+
+  def check_if_valid_shot
+    if computer_board.valid_shot?(@input) == true
+      check_if_already_fired
+    else
+      invalid_shot
+      player_take_shot
+    end
+  end
+
+  def check_if_already_fired
+    if computer_board.cells[@input].fired_upon? == false
+      computer_board.take_shot(@input)
+      analyze_shot
+    else
+      already_shot_here
+      player_take_shot
+    end
   end
 
   def analyze_shot
     shot_analysis
     @computer.fleet_health == 0 ? end_game : computer_turn
+  end
+
+  def shot_analysis
+    if computer_board.cells[@input].missed? == true
+      missed_shot
+    elsif computer_board.cells[@input].direct_hit? == true
+      hit_shot
+    else computer_board.cells[@input].ship_sunk? == true
+      sunk_shot
+    end
   end
 
   def computer_turn
@@ -190,12 +260,6 @@ class Game
     player_board.take_shot(shot)
     player_board.cells[shot].missed? ? computer_missed_shot(shot) : computer_made_shot(shot)
     @player.fleet_health == 0 ? end_game : player_turn
-  end
-
-  def shot_analysis
-    return sunk_shot if computer_board.cells[@input].ship_sunk? == true
-    return hit_shot if computer_board.cells[@input].direct_hit? == true
-    return missed_shot if computer_board.cells[@input].missed? == true
   end
 
   def end_game

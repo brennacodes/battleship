@@ -24,7 +24,7 @@ module CellStates
   end
 
   def ship_sunk?
-    if (@fired == true) && (@ship != nil) && (@ship.health == 0)
+    if (@ship != nil) && (@ship.health == 0) && (@fired == true)
       true
     else
       false
