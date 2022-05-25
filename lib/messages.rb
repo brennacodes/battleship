@@ -50,23 +50,27 @@ module Messages
   end
 
   def missed_shot
-    puts "Your shot on #{@input} was a miss👎."
+    puts "Your shot on #{@input} was a miss.👎"
   end
 
   def hit_shot
-    puts "Your shot on #{@input} was a hit💥."
+    puts "Your shot on #{@input} was a hit.💥"
   end
 
   def sunk_shot
-    puts "Your shot on #{@input} sunk my ship💀."
+    puts "Your shot on #{@input} sunk my ship.💀"
   end
 
   def computer_missed_shot(shot)
-    puts "My shot on #{shot} was a miss👎."
+    puts "My shot on #{shot} was a miss.👎"
   end
 
   def computer_made_shot(shot)
-    puts "My shot on #{shot} was a hit💥."
+    puts "My shot on #{shot} was a hit.💥"
+  end
+
+  def computer_sunk_shot(shot)
+    puts "My shot on #{shot} sunk your ship!💀"
   end
 
   def game_over(winner)

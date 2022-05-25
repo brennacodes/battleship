@@ -144,7 +144,6 @@ class Game
     if computer_board.valid_placement?(ship, coordinates) == true
       computer_place_ship(ship, coordinates)
     else
-      invalid_coordinates
       computer_ship_placement(@ship)
     end
   end
@@ -161,12 +160,26 @@ class Game
     computer_header
     computer_board.rendering
     line_break
+    player_take_shot
+  end
+
+  def player_take_shot
     your_shot
     @input = gets.chomp.upcase
     input_validation
     line_break
+    player_make_shot
+  end
+
+  def player_make_shot
     computer_board.take_shot(@input)
+    require "pry"; binding.pry
+    analyze_shot
+  end
+
+  def analyze_shot
     shot_analysis
+    require "pry"; binding.pry
     @computer.fleet_health == 0 ? end_game : computer_turn
   end
 
@@ -180,8 +193,8 @@ class Game
 
   def shot_analysis
     return sunk_shot if computer_board.cells[@input].ship_sunk? == true
-    return missed_shot if computer_board.cells[@input].missed? == true
     return hit_shot if computer_board.cells[@input].direct_hit? == true
+    return missed_shot if computer_board.cells[@input].missed? == true
   end
 # END GAME ---------------------------------------
   def end_game
