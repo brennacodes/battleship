@@ -173,13 +173,11 @@ class Game
 
   def player_make_shot
     computer_board.take_shot(@input)
-    require "pry"; binding.pry
     analyze_shot
   end
 
   def analyze_shot
     shot_analysis
-    require "pry"; binding.pry
     @computer.fleet_health == 0 ? end_game : computer_turn
   end
 

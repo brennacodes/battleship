@@ -36,7 +36,7 @@ class Cell
     if direct_hit
       @ship.health -= 1
       @fired = true
-    elsif missed? == true
+    elsif missed == true
       @fired = true
       "Big miss there, bud."
     else
