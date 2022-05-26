@@ -4,43 +4,43 @@ module Messages
   end
 
   def make_own_ships?
-    puts "Would you like to make your own ships?\nPress 'y' for yes, or 'n' for no."
+    puts "🟨 Would you like to make your own ships?\n🟨 Press 'y' for yes, or 'n' for no."
   end
 
   def begin_message
-    puts "⬛️ I have laid out my ships on my ✨super secret✨ board.\n⬛️ Now you need to lay out your two ships.\n⬛️ I am a computer, so I can 'technically' see your ships,\n⬛️ but I'm not actually 'looking'...👀\n⬛️ Promise."
+    puts "🟫 I have laid out my ships on my ✨super secret✨ board.\n🟫 Now you need to lay out your two ships.\n🟫 I am a computer, so I can 'technically' see your ships,\n🟫 but I'm not actually 'looking'...👀\n🟫 Promise."
   end
 
   def enter_ship_name
-    puts "⬛️ Enter the name of your ship below:\n"
+    puts "🟨 Enter the name of your ship below:\n"
   end
 
   def custom_board_size?
-    puts "⬛️ Would you like to make your own board?\nPress 'y' for yes, or 'n' for no."
+    puts "🟨 Would you like to make your own board?\n🟨 Press 'y' for yes, or 'n' for no."
   end
 
   def enter_ship_length
-    puts "⬛️ Enter the length of your ship below:\n"
+    puts "🟨 Enter the length of your ship below:\n"
   end
 
   def make_another_ship?
-    puts "⬛️ Would you like to make another ship?\n⬛️Please enter 'y' for yes, or 'n' for no.\n"
+    puts "🟨 Would you like to make another ship?\n🟨 Please enter 'y' for yes, or 'n' for no.\n"
   end
 
   def enter_board_width
-    puts "⬛️ Enter the width of your board below (up to 10 spaces).\nFor example, '10' for a board tht is 10 spaces wide."
+    puts "🟨 Enter the width of your board below (up to 10 spaces).\n🟨 For example, '10' for a board tht is 10 spaces wide."
   end
 
   def enter_board_height
-    puts "⬛️ Enter the height of your board below (up to 10 spaces).\nFor example, '10' for a board tht is 10 spaces tall."
+    puts "🟨 Enter the height of your board below (up to 10 spaces).\n🟨 For example, '10' for a board tht is 10 spaces tall."
   end
 
   def ships_to_be_placed
-    puts "⬛️ Your fleet includes the ships below:\n"
+    puts "⬜️  Your fleet includes the ships below:\n"
   end
 
   def place_your_ship
-    puts "🟨 ⬇ Enter the coordinates for the #{@ship.name} (#{@ship.length} coordinates).\n🟨 For example: 'A1 A2 A3'"
+    puts "🟨 Enter the coordinates for the #{@ship.name} (#{@ship.length} coordinates).\n🟨 For example: 'A1 A2 A3'"
   end
 
   def invalid_coordinates
@@ -60,7 +60,7 @@ module Messages
   end
 
   def your_shot
-    puts "⬇ Enter the coordinate for your shot:\n"
+    puts "🟨 Enter the coordinate for your shot:\n"
   end
 
   def line_break
@@ -70,6 +70,8 @@ module Messages
   def let_games_begin
     line_break
     puts "⬛️⬛️L⬛️E⬛️T⬛️⬛️T⬛️H⬛️E⬛️⬛️G⬛️A⬛️M⬛️E⬛️S⬛️⬛️B⬛️E⬛️G⬛️I⬛️N⬛️⬛️"
+    line_break
+    line_break
   end
 
   def buhbye
@@ -81,12 +83,11 @@ module Messages
   end
 
   def board_header
-    line_break
-    puts "⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️#{@player.name}'s Board⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️"
+    puts "⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️ #{@player.name}'s Board ⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️"
   end
 
   def computer_header
-    puts "🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫Computer's Board🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫"
+    puts "🟫🟫🟫🟫🟫🟫🟫🟫🟫 Computer's Board 🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫"
   end
 
   def missed_shot
@@ -102,15 +103,15 @@ module Messages
   end
 
   def computer_missed_shot(shot)
-    puts "⬛️⬛️⬛️⬛️⬛️⬛️👎 My shot on #{shot} was a miss.👎"
+    puts "🟫🟫🟫🟫🟫🟫👎 My shot on #{shot} was a miss.👎"
   end
 
   def computer_made_shot(shot)
-    puts "⬛️⬛️⬛️⬛️⬛️⬛️💥 My shot on #{shot} was a hit.💥"
+    puts "🟫🟫🟫🟫🟫🟫💥 My shot on #{shot} was a hit.💥"
   end
 
   def computer_sunk_shot(shot)
-    puts "⬛️⬛️⬛️⬛️⬛️⬛️💀 My shot on #{shot} sunk your ship!💀"
+    puts "🟫🟫🟫🟫🟫🟫💀 My shot on #{shot} sunk your ship!💀"
   end
 
   def game_over(winner)

@@ -5,13 +5,11 @@ class Game
   include Messages
   include CellStates
 
-  attr_reader :state,
-              :player,
+  attr_reader :player,
               :computer,
               :input
 
   def initialize
-    @state = 'new'
     @player = Player.new('Player 1')
     @computer = Player.new('Computer')
     @input = ''
@@ -67,7 +65,6 @@ class Game
     @computer.make_ship(name, length)
     make_another_ship?
     answer = gets.chomp
-    input_validation
     answer == 'y' ? custom_ships : get_ready
   end
 
@@ -89,7 +86,7 @@ class Game
   def player_ships
     ships =  @player.fleet
     ships.map do |ship|
-      puts "⬛️#{ship.name}: #{ship.length} units"
+      puts "⬜️ #{ship.name}: #{ship.length} units"
     end
   end
 
@@ -120,6 +117,7 @@ class Game
   end
 
   def get_ready
+    line_break
     begin_message
     line_break
     player_board.rendering(true)
@@ -204,25 +202,21 @@ class Game
   end
 
   def games_begin
+    line_break
     let_games_begin
     line_break
-    player_turn
-  end
-
-  def player_turn
     board_header
     player_board.rendering(true)
     computer_header
     computer_board.rendering
     line_break
-    player_take_shot
+    player_turn
   end
 
-  def player_take_shot
+  def player_turn
     your_shot
     @input = gets.chomp.upcase
     input_validation
-    line_break
     line_break
     check_if_valid_coordinate
   end
@@ -248,15 +242,17 @@ class Game
   def check_if_already_fired
     if computer_board.cells[@input].fired_upon? == false
       computer_board.take_shot(@input)
-      analyze_shot
+      end_player_turn
     else
       already_shot_here
       player_take_shot
     end
   end
 
-  def analyze_shot
+  def end_player_turn
     shot_analysis
+    board_header
+    player_board.rendering(true)
     @computer.fleet_health == 0 ? end_game : computer_turn
   end
 
@@ -274,7 +270,18 @@ class Game
     shots_available = @player.board.shots_available
     shot = shots_available.sample
     player_board.take_shot(shot)
-    player_board.cells[shot].missed? ? computer_missed_shot(shot) : computer_made_shot(shot)
+    computer_end_turn(shot)
+  end
+
+  def computer_end_turn(shot)
+    if player_board.cells[shot].missed?
+      computer_missed_shot(shot)
+    else
+      computer_made_shot(shot)
+    end
+    computer_header
+    computer_board.rendering
+    line_break
     @player.fleet_health == 0 ? end_game : player_turn
   end
 

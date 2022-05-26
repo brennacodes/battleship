@@ -102,18 +102,19 @@ class Board
   end
 
   def rendering(visibility = false)
-    num = ['  ⓵', ' ⓶', ' ⓷', ' ⓸', ' ⓹', ' ⓺', ' ⓻', ' ⓼', ' ⓽', ' ⓾']
+    number_icons = ['  ⓵', ' ⓶', ' ⓷', ' ⓸', ' ⓹', ' ⓺', ' ⓻', ' ⓼', ' ⓽', ' ⓾']
     alphabet = ('A'..'J').to_a
-    lets =  ['🅰', '🅱', '🅲', '🅳', '🅴', '🅵', '🅶', '🅷', '🅸', '🅹']
-    letters = alphabet.zip(lets).to_h
-    sym = num.zip(lets)
-    sym = sym.to_h
-    puts "⬛️⬛️⬛️⬛️⬛️⬛️" + num.join(' ')
+    letter_icons =  ['🅰', '🅱', '🅲', '🅳', '🅴', '🅵', '🅶', '🅷', '🅸', '🅹']
+    letters_to_letters = alphabet.zip(letter_icons).to_h
+    number_icons_to_letter_icons_array = number_icons.zip(letter_icons)
+    number_icons_to_letter_icons_hash = number_icons_to_letter_icons_array.to_h
+    board_header = number_icons_to_letter_icons_hash.keys[0..@width - 1]
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️" + board_header.join(' ')
     @board_rows.each do |key, value|
-      output = value.map do |v|
+      render_output = value.map do |v|
         @cells[v].render(visibility)
       end
-      puts "⬛️⬛️⬛️⬛️⬛️⬛️" + letters[key[0]] + " " + output.join(' ')
+      puts "⬛️⬛️⬛️⬛️⬛️⬛️" + letters_to_letters[key[0]] + " " + render_output.join(' ')
     end
   end
 
