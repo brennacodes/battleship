@@ -108,12 +108,12 @@ class Board
     letters = alphabet.zip(lets).to_h
     sym = num.zip(lets)
     sym = sym.to_h
-    puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️ " + num.join(' ')
+    puts "⬛️⬛️⬛️⬛️⬛️⬛️" + num.join(' ')
     @board_rows.each do |key, value|
       output = value.map do |v|
         @cells[v].render(visibility)
       end
-      puts "⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️⬛️" + letters[key[0]] + " " + output.join(' ')
+      puts "⬛️⬛️⬛️⬛️⬛️⬛️" + letters[key[0]] + " " + output.join(' ')
     end
   end
 
