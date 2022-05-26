@@ -3,8 +3,8 @@ module Messages
     puts "🟩 Welcome to BATTLESHIP\n🟩 Type 'play' to play. Type 'quit' to quit at any time."
   end
 
-  def add_player
-    puts "Please type your name.\nPress `Enter` to continue."
+  def make_own_ships?
+    puts "Would you like to make your own ships?\nPress 'y' for yes, or 'n' for no."
   end
 
   def begin_message
@@ -13,6 +13,10 @@ module Messages
 
   def enter_ship_name
     puts "⬛️ Enter the name of your ship below:\n"
+  end
+
+  def custom_board_size?
+    puts "⬛️ Would you like to make your own board?\nPress 'y' for yes, or 'n' for no."
   end
 
   def enter_ship_length

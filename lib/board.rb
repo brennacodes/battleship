@@ -11,13 +11,18 @@ class Board
               :rows,
               :columns,
               :board_rows,
-              :board_columns
+              :board_columns,
+              :width,
+              :height
 
-  def initialize(width, height)
+  def initialize(width = 4, height = 4)
     @width = width
     @height = height
-    @h_coordinates = make_horizontal_coordinates(width)
-    @v_coordinates = make_vertical_coordinates(height)
+    @numbers = (1..10).to_a
+    @letters = ('A'..'J').to_a
+    @numbered_hash = @numbers.zip(@letters).to_h
+    @h_coordinates = make_coordinates
+    @v_coordinates = make_coordinates
     @cells = make_cells
     @board_columns = @v_coordinates.group_by {|column| column[1]}
     @board_rows = @h_coordinates.group_by {|row| row[0]}
@@ -25,15 +30,12 @@ class Board
     @rows = @board_rows.values
   end
 
-  def make_horizontal_coordinates(width)
-    range = (1..width).to_a
-    @letters = ("A".."J").to_a
-    @numbers = (1..width).to_a
-    @h_coordinates = @letters.product(numbers).map {|coord| coord.join('')}
-  end
-
-  def make_vertical_coordinates(height)
-    @v_coordinates = @numbers.product(letters).map {|num| num.join('').reverse}
+  def make_coordinates
+      @numbered_hash.select! {|num, letter| num <= @height}
+      @letters = @numbered_hash.values
+      @numbers = (1..width).to_a
+      @h_coordinates = @letters.product(@numbers).map {|coord| coord.join('')}
+      @v_coordinates = @numbers.product(@letters).map {|num| num.join('').reverse}
   end
 
   def make_cells
@@ -62,7 +64,7 @@ class Board
 
   def valid_placement?(ship, coordinates)
     spaces = coordinates.length
-    return false if ship.length != spaces
+    return false if ship.length.to_i != spaces
     valid_array_check(spaces, coordinates)
   end
 
@@ -100,9 +102,9 @@ class Board
   end
 
   def rendering(visibility = false)
-    num = [' ⓵', ' ⓶', ' ⓷', ' ⓸']
-    alphabet = ('A'..'D').to_a
-    lets =  ['🅰', '🅱', '🅲', '🅳']
+    num = [' ⓵', ' ⓶', ' ⓷', ' ⓸', ' ⓹', ' ⓺', ' ⓻', ' ⓼', ' ⓽', ' ⓾']
+    alphabet = ('A'..'J').to_a
+    lets =  ['🅰', '🅱', '🅲', '🅳', '🅴', '🅵', '🅶', '🅷', '🅸', '🅹']
     letters = alphabet.zip(lets).to_h
     sym = num.zip(lets)
     sym = sym.to_h

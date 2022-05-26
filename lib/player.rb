@@ -6,8 +6,7 @@ class Player
 
   def initialize(name)
     @name = name
-    @fleet = [Ship.new("Cruiser", 3), Ship.new("Submarine", 2)]
-    # @fleet = []
+    @fleet = []
     @fleet_health = fleet_health
     @board = ''
   end

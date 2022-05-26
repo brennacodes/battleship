@@ -24,43 +24,59 @@ class Game
     @input = gets.chomp.upcase
     input_validation
     line_break
-    get_ready
+    custom_board_question
   end
 
   def custom_board_question
     custom_board_size?
     answer = gets.chomp
-    answer == 'y' : enter_board_width : start_game
+    answer == 'y' ? get_board_width : make_boards(width, height)
   end
 
   def get_board_width
     enter_board_width
-    width = gets.chomp
-    width == Integer && width <= 10 ? get_board_height(width) : get_board_width
+    width = gets.chomp.to_i
+    width <= 10 ? get_board_height(width) : get_board_width
   end
 
   def get_board_height(width)
     enter_board_height
-    height = gets.chomp
-    height == Integer && height <= 10 ? make_boards(width, height) : get_board_height
+    height = gets.chomp.to_i
+    height <= 10 ? make_boards(width, height) : get_board_height
   end
 
-  def make_boards(width, height)
+  def make_boards(width = 4, height = 4)
     @player.make_board(width, height)
     @computer.make_board(width, height)
+    ship_question
+  end
+
+  def ship_question
+    line_break
+    make_own_ships?
+    answer = gets.chomp
+    answer == 'y' ? custom_ships : make_ships
   end
 
   def custom_ships
     enter_ship_name
     name = gets.chomp
     enter_ship_length
-    length = gets.chomp
+    length = gets.chomp.to_i
     @player.make_ship(name, length)
     @computer.make_ship(name, length)
     make_another_ship?
     answer = gets.chomp
     input_validation
-    answer == 'y' ? custom_ships : start_game
+    answer == 'y' ? custom_ships : get_ready
+  end
+
+  def make_ships
+    @player.make_ship('Cruiser', 3)
+    @player.make_ship('Submarine', 2)
+    @computer.make_ship('Cruiser', 3)
+    @computer.make_ship('Submarine', 2)
+    get_ready
   end
 
   def input_validation
@@ -137,12 +153,12 @@ class Game
 
   def validate_placement(ship, coordinates)
     return ships_placed? if ship_placed? == true
-    if player_board.valid_placement?(ship, coordinates) == true
+    if player_board.valid_placement?(@ship, @input) == true
       place_ship(ship, coordinates)
     else
       invalid_coordinates
       line_break
-      player_setup
+      enter_ship_coordinates
     end
   end
 
@@ -164,7 +180,7 @@ class Game
   end
 
   def computer_ship_placement(this_ship)
-    spaces = this_ship.length
+    spaces = this_ship.length.to_i
     a = computer_board.columns.map {|col| col.each_cons(spaces)}
     a = a.map {|arr| arr.map {|sub| sub}}.flatten(1)
     b = computer_board.rows.map {|row| row.each_cons(spaces)}
