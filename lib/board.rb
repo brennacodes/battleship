@@ -117,7 +117,6 @@ class Board
     end
   end
 
-# RE-ENTER INVALID COORDINATE LOOP BREAKS HERE______________
   def take_shot(coordinate)
     @cells[coordinate].fire_upon
   end

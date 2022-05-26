@@ -1,30 +1,13 @@
 # Battleship
 
-Presentation points:
+Grab your friends! Make some ships! Blow them out of the water!
+It's a game of wits, and a game of stamina.
+Can you **destroy** the computer's ships before it destroys yours?
+Find out now!
 
-- [ ] Demonstration of functional completeness
+## To play:
 
-Run your runner file, and demonstrate how the game is played in the terminal.
-If you’ve considered edge cases, make sure you demonstrate that functionality in your demo.
-
-- [ ] Technical quality and organization of the code
-
-At a high level (not line by line), describe how you broke out this game. What classes did you create? What is the responsibility of each class?
-Why did you choose to design your code in this way?
-Is there a design decision that you made that you’re particularly proud of?
-
-- [ ] Identifying code that should be refactored and how it would be refactored
-
-Identify a piece of code that you’d like to refactor. How would you update that code?
-Are there any parts of your code that you’re unsure/hesitant about? Why?
-
-- [ ] Discussion of test coverage
-
-Show examples of a unit and an integration test that you wrote.
-Run your test suite and open coverage report (if you were able to implement simplecov)
-
-- [ ] Discussion of Pairing/version control
-
-How did you all work together? Did you use a particular pairing technique?
-Walk us through your GitHub insights. How many pull requests did you make? How many commits did you make?
-Can you identify a PR that was made that demonstrates good commenting/partner review workflow?
+- clone this repo
+- navigate to the repo folder
+- run the command `ruby lib/menu.rb`
+- HAVE FUN!!!!

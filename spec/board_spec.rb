@@ -66,6 +66,7 @@ RSpec.describe do
     expect(board1.rendering).to eq({"A"=>["A1", "A2", "A3", "A4"], "B"=>["B1", "B2", "B3", "B4"], "C"=>["C1", "C2", "C3", "C4"], "D"=>["D1", "D2", "D3", "D4"]})
   end
 
+  # THIS TEST DOESN'T WORK WITH THE WAY MY BOARD IS SET UP :(
   # xit 'can render a board and show ships' do
   # board1.place(cruiser, ["A1", "A2", "A3"])
   # # expect(board1.rendering(true)).to eq("  ⓵ ⓶ ⓷ ⓸\nA 🚢 S S .\nB . . . .\nC . . . .\nD . . . .\n")
